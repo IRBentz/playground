@@ -2,17 +2,20 @@ package ygo_package;
 
 public class Card {
 	private final String NAME, LORE;
+	private final Type TYPE;
 	private final int CARD_IND;
 	
 	public Card() {
 		this.NAME = null;
+		this.TYPE = null;
 		this.CARD_IND = 0;
 		this.LORE = null;
 	}
 	
-	public Card(String name, int index, String lore) {
+	public Card(String name, int index, Type type, String lore) {
 		this.NAME = name;
 		this.CARD_IND = index;
+		this.TYPE = type;
 		this.LORE = lore;
 	}
 	
@@ -24,15 +27,19 @@ public class Card {
 		return LORE;
 	}
 	
+	public Type getType() {
+		return TYPE;
+	}
+	
 	public int getIndex() {
 		return CARD_IND;
 	}
 }
 
 class monCard extends Card {
-	private final monATTRIBUTE MON_ATTRI;
-	private final monTYPE MON_TYPE;
-	private final TYPE[] TYPES;
+	private final monAttribute MON_ATTRI;
+	private final monType MON_TYPE;
+	private final Type[] TYPES;
 	private final int LEVEL_RANK, ATTACK, DEFENSE;
 	
 	monCard() {
@@ -45,8 +52,8 @@ class monCard extends Card {
 		this.DEFENSE = 0;
 	}
 	
-	monCard(String name, int index, monATTRIBUTE mon_attri, monTYPE mon_type, TYPE[] types, String lore, int level_rank, int attack, int defense) {
-		super(name, index, lore);
+	monCard(String name, int index, monAttribute mon_attri, monType mon_type, Type[] types, String lore, int level_rank, int attack, int defense) {
+		super(name, index, types[0], lore);
 		this.MON_ATTRI = mon_attri;
 		this.MON_TYPE = mon_type;
 		this.TYPES = types;
@@ -55,15 +62,15 @@ class monCard extends Card {
 		this.DEFENSE = defense;
 	}
 	
-	public monATTRIBUTE getAttribute() {
+	public monAttribute getAttribute() {
 		return MON_ATTRI;
 	}
 	
-	public monTYPE getMonType() {
+	public monType getMonType() {
 		return MON_TYPE;
 	}
 	
-	public TYPE[] getTypes() {
+	public Type[] getTypes() {
 		return TYPES;
 	}
 	
@@ -88,7 +95,7 @@ class penMonCard extends monCard {
 		this.PEND_LEVEL = 0;
 	}
 	
-	penMonCard(String name, int index, monATTRIBUTE mon_attri, monTYPE mon_type, TYPE[] types, String lore, int level_rank, int pend_level, int attack, int defense) {
+	penMonCard(String name, int index, monAttribute mon_attri, monType mon_type, Type[] types, String lore, int level_rank, int pend_level, int attack, int defense) {
 		super(name, index, mon_attri, mon_type, types, lore, level_rank, attack, defense);
 		this.PEND_LEVEL = pend_level;
 	}
@@ -100,7 +107,7 @@ class penMonCard extends monCard {
 
 class linkMonCard extends monCard {
 	final int LINK_RATING;
-	final LINK_ARROW[] LINK_ARROWS;
+	final link_arrow[] LINK_ARROWS;
 	
 	public linkMonCard() {
 		super();
@@ -108,7 +115,7 @@ class linkMonCard extends monCard {
 		this.LINK_ARROWS = null;
 	}
 	
-	public linkMonCard(String name, int index, monATTRIBUTE mon_attri, monTYPE mon_type, TYPE[] types, String lore, int link_rating, int attack, int defense, LINK_ARROW[] link_arrows) {
+	public linkMonCard(String name, int index, monAttribute mon_attri, monType mon_type, Type[] types, String lore, int link_rating, int attack, int defense, link_arrow[] link_arrows) {
 		super(name, index, mon_attri, mon_type, types, lore, 0, attack, defense);
 		this.LINK_RATING = link_rating;
 		this.LINK_ARROWS = link_arrows;
@@ -118,38 +125,37 @@ class linkMonCard extends monCard {
 		return LINK_RATING;
 	}
 	
-	public LINK_ARROW[] getLinkArrows() {
+	public link_arrow[] getLinkArrows() {
 		return LINK_ARROWS;
 	}
 }
 
 class stCard extends Card {
-	private final boolean IS_SPELL, IS_TRAP;
-	private final ICON ST_ICON;
+	private final Icon ICON;
 	
-	stCard() {
+	public stCard() {
 		super();
-		this.IS_SPELL = false;
-		this.IS_TRAP = false;
-		this.ST_ICON = null;
+		this.ICON = null;
 	}
 	
-	stCard(String name, int index, String lore, boolean is_spell, ICON st_icon) {
-		super(name, index, lore);
-		this.IS_SPELL = is_spell;
-		this.IS_TRAP = !IS_SPELL;
-		this.ST_ICON = st_icon;
+	public stCard(String name, int index, String lore, Type type, Icon st_icon) {
+		super(name, index, type, lore);
+		this.ICON = st_icon;
 	}
 	
-	public boolean returnIsSpell() {
-		return IS_SPELL;
+	public Icon returnIcon() {
+		return ICON;
 	}
-	
-	public boolean returnIsTrap() {
-		return IS_TRAP;
+}
+
+class spellCard extends stCard {
+	public spellCard() {
+		super();
 	}
-	
-	public ICON returnIcon() {
-		return ST_ICON;
+}
+
+class trapCard extends stCard {
+	public trapCard() {
+		super();
 	}
 }
