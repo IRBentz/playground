@@ -5,8 +5,23 @@ public enum ENUMS {
 }
 
 enum CARD_TYPE {
-	NULL,
-	SPELL,
-	TRAP,
-	MONSTER
+	
+}
+
+enum monATTRIBUTE {
+	LIGHT,
+	DARK,
+	WIND,
+	WATER,
+	FIRE,
+	EARTH,
+	DIVINE
+}
+
+enum stATTRIBUTE {
+	FIELD,
+	QUICK,
+	COUNTER,
+	CONTINOUS,
+	NORMAL
 }
