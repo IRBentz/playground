@@ -10,6 +10,32 @@ Attribute
 Level
 Artwork
 Type
+	AQUA
+	BEAST
+	BEAST-WARRIOR
+	CREATOR GOD
+	CYBERSE
+	DINOSAUR
+	DIVINE-BEAST
+	DRAGON
+	FAIRY
+	FIEND
+	FISH
+	ILLUSION
+	INSECT
+	MACHINE
+	PLANT
+	PSYCHIC
+	PYRO
+	REPTILE
+	ROCK
+	SEA SERPENT
+	SPELLCASTER
+	THUNDER
+	WARRIOR
+	WINGED BEAST
+	WYRM
+	ZOMBIE
 Monsters:
 	Line is Denoted as Type/Special Ability-Special Summon Type/Effect-Normal
 Spells/Traps:
