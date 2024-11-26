@@ -1,6 +1,6 @@
 package ygo_package;
 
-public class Card {
+public abstract class Card {
 	private final String NAME, LORE;
 	private final Type TYPE;
 	private final int CARD_IND;
@@ -34,6 +34,10 @@ public class Card {
 	public int getIndex() {
 		return CARD_IND;
 	}
+	
+	public String toString() {
+		return NAME + " " + CARD_IND + " " + TYPE + " " + LORE;
+	}
 }
 
 class monCard extends Card {
@@ -42,7 +46,7 @@ class monCard extends Card {
 	private final Type[] TYPES;
 	private final int LEVEL_RANK, ATTACK, DEFENSE;
 	
-	monCard() {
+	public monCard() {
 		super();
 		this.MON_ATTRI = null;
 		this.MON_TYPE = null;
@@ -52,7 +56,7 @@ class monCard extends Card {
 		this.DEFENSE = 0;
 	}
 	
-	monCard(String name, int index, monAttribute mon_attri, monType mon_type, Type[] types, String lore, int level_rank, int attack, int defense) {
+	public monCard(String name, int index, monAttribute mon_attri, monType mon_type, Type[] types, String lore, int level_rank, int attack, int defense) {
 		super(name, index, types[0], lore);
 		this.MON_ATTRI = mon_attri;
 		this.MON_TYPE = mon_type;
@@ -85,17 +89,21 @@ class monCard extends Card {
 	public int getDefense() {
 		return DEFENSE;
 	}
+	
+	public String toString() {
+		return super.toString() + " " + MON_ATTRI + " " + MON_TYPE + " " + TYPES + " " + LEVEL_RANK + " " + ATTACK + " " + DEFENSE;
+	}
 }
 
 class penMonCard extends monCard {
 	final int PEND_LEVEL;
 	
-	penMonCard() {
+	public penMonCard() {
 		super();
 		this.PEND_LEVEL = 0;
 	}
 	
-	penMonCard(String name, int index, monAttribute mon_attri, monType mon_type, Type[] types, String lore, int level_rank, int pend_level, int attack, int defense) {
+	public penMonCard(String name, int index, monAttribute mon_attri, monType mon_type, Type[] types, String lore, int level_rank, int pend_level, int attack, int defense) {
 		super(name, index, mon_attri, mon_type, types, lore, level_rank, attack, defense);
 		this.PEND_LEVEL = pend_level;
 	}
@@ -128,6 +136,10 @@ class linkMonCard extends monCard {
 	public link_arrow[] getLinkArrows() {
 		return LINK_ARROWS;
 	}
+	
+	public String toString() {
+		return super.toString() + " " + LINK_RATING + " " + LINK_ARROWS;
+	}
 }
 
 class stCard extends Card {
@@ -145,6 +157,10 @@ class stCard extends Card {
 	
 	public Icon returnIcon() {
 		return ICON;
+	}
+	
+	public String toString() {
+		return super.toString() + " " + ICON;
 	}
 }
 
