@@ -91,7 +91,13 @@ class monCard extends Card {
 	}
 	
 	public String toString() {
-		return super.toString() + " " + MON_ATTRI + " " + MON_TYPE + " " + TYPES + " " + LEVEL_RANK + " " + ATTACK + " " + DEFENSE;
+		String types = "";
+		for(int i = 0; i < TYPES.length; i++) {
+			types += TYPES[i].toString() + " ";
+		}
+		types = types.substring(0, types.length() - 1);
+		
+		return super.toString() + " " + MON_ATTRI + " " + MON_TYPE + " " + types + " " + LEVEL_RANK + " " + ATTACK + " " + DEFENSE;
 	}
 }
 
@@ -138,11 +144,16 @@ class linkMonCard extends monCard {
 	}
 	
 	public String toString() {
-		return super.toString() + " " + LINK_RATING + " " + LINK_ARROWS;
+		String link_arrows = "";
+		for(int i = 0; i < LINK_ARROWS.length; i++) {
+			link_arrows += LINK_ARROWS[i].toString() + " ";
+		}
+		link_arrows = link_arrows.substring(0, link_arrows.length() - 1);
+		return super.toString() + " " + LINK_RATING + " " + link_arrows;
 	}
 }
 
-class stCard extends Card {
+abstract class stCard extends Card {
 	private final Icon ICON;
 	
 	public stCard() {
@@ -168,10 +179,18 @@ class spellCard extends stCard {
 	public spellCard() {
 		super();
 	}
+	
+	public spellCard(String name, int index, String lore, Type type, Icon st_icon) {
+		super(name, index, lore, type, st_icon);
+	}
 }
 
 class trapCard extends stCard {
 	public trapCard() {
 		super();
+	}
+	
+	public trapCard(String name, int index, String lore, Type type, Icon st_icon) {
+		super(name, index, lore, type, st_icon);
 	}
 }
