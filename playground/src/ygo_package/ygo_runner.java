@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 public class ygo_runner {
 
 	public ygo_runner() throws FileNotFoundException {
-		File file = new File("//ygo_package//database.data");
+		File file = new File("database.data");
 		file.setReadable(true);
 		System.out.println(file.getPath() + "\n" + file.getAbsolutePath() + "\n" + file.canRead() + "\n" + file.isDirectory() + "\n" + file.exists());
 		System.out.println(new File(".").getAbsolutePath());
