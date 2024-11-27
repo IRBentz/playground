@@ -3,6 +3,7 @@ package ygo_package;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public abstract class Backend {
@@ -78,7 +79,6 @@ public abstract class Backend {
 									(String) ((Object[]) returnedList[0])[2],
 									(Integer) returnedList[5], 
 									(Integer) returnedList[6],
-									input_file.nextInt(),
 									pullNextLinkArrowBlock(input_file, ";")
 									));
 					break;
@@ -111,9 +111,12 @@ public abstract class Backend {
 		}
 		input_file.close();
 		
-		for(int i = 0; i < database.size(); i++) {
-			System.out.println(database.get(i));
+		/*
+		for(Card card : database) {
+			System.out.println(card);
 		}
+		*/
+		Arrays.stream(database.toArray()).forEach(card -> System.out.println(card));
 	}
 	
 	private static Object[] pullBaseStats(Scanner target_scanner, String delimiter) {
@@ -121,7 +124,14 @@ public abstract class Backend {
 	}
 	
 	private static Object[] pullMonBaseStats(Scanner target_scanner, String delimiter) {
-		return new Object[] {pullBaseStats(target_scanner, delimiter), stringConvert(target_scanner.next()), stringConvert(target_scanner.next()), pullNextTypeBlock(target_scanner, ";"), target_scanner.nextInt(), target_scanner.nextInt(), target_scanner.nextInt()};
+		return new Object[] {
+				pullBaseStats(target_scanner, delimiter), 
+				stringConvert(target_scanner.next()), 
+				stringConvert(target_scanner.next()), 
+				pullNextTypeBlock(target_scanner, ";"), 
+				target_scanner.nextInt(), 
+				target_scanner.nextInt(), 
+				target_scanner.nextInt()};
 	}
 	
 	private static Object[] pullSTBaseStats(Scanner target_scanner, String delimiter) {

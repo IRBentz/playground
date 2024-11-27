@@ -136,8 +136,8 @@ class linkMonCard extends monCard {
 		this.LINK_ARROWS = null;
 	}
 	
-	public linkMonCard(String name, int index, cardType cardType, monAttribute mon_attri, monType mon_type, Type[] types, String lore, int link_rating, int attack, int defense, linkArrow[] link_arrows) {
-		super(name, index, cardType, mon_attri, mon_type, types, lore, 0, attack, defense);
+	public linkMonCard(String name, int index, cardType cardType, monAttribute mon_attri, monType mon_type, Type[] types, String lore, int link_rating, int attack, linkArrow[] link_arrows) {
+		super(name, index, cardType, mon_attri, mon_type, types, lore, link_rating, attack, link_rating);
 		this.LINK_RATING = link_rating;
 		this.LINK_ARROWS = link_arrows;
 	}
@@ -152,8 +152,8 @@ class linkMonCard extends monCard {
 	
 	public String toString() {
 		String link_arrows = "";
-		for(int i = 0; i < LINK_ARROWS.length; i++) {
-			link_arrows += LINK_ARROWS[i].toString() + " ";
+		for(linkArrow link_arrow : LINK_ARROWS) {
+			link_arrows += link_arrow.toString() + " ";
 		}
 		link_arrows = link_arrows.substring(0, link_arrows.length() - 1);
 		return super.toString() + " " + LINK_RATING + " " + link_arrows;

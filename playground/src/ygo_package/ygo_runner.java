@@ -4,7 +4,7 @@ package ygo_package;
 public class ygo_runner {
 
 	public ygo_runner() {
-		String fileName = "src//database.data";
+		String fileName = "src//ygo_package//database.data";
 		Backend.start(fileName);
 	}
 
