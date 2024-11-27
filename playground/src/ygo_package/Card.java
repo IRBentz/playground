@@ -2,7 +2,7 @@ package ygo_package;
 
 public abstract class Card {
 	private final String NAME, LORE;
-	private final Type TYPE;
+	private final cardType TYPE;
 	private final int CARD_IND;
 	
 	public Card() {
@@ -12,7 +12,7 @@ public abstract class Card {
 		this.LORE = null;
 	}
 	
-	public Card(String name, int index, Type type, String lore) {
+	public Card(String name, int index, cardType type, String lore) {
 		this.NAME = name;
 		this.CARD_IND = index;
 		this.TYPE = type;
@@ -27,7 +27,7 @@ public abstract class Card {
 		return LORE;
 	}
 	
-	public Type getType() {
+	public cardType getType() {
 		return TYPE;
 	}
 	
@@ -56,8 +56,8 @@ class monCard extends Card {
 		this.DEFENSE = 0;
 	}
 	
-	public monCard(String name, int index, monAttribute mon_attri, monType mon_type, Type[] types, String lore, int level_rank, int attack, int defense) {
-		super(name, index, types[0], lore);
+	public monCard(String name, int index, cardType cardType, monAttribute mon_attri, monType mon_type, Type[] types, String lore, int level_rank, int attack, int defense) {
+		super(name, index, cardType, lore);
 		this.MON_ATTRI = mon_attri;
 		this.MON_TYPE = mon_type;
 		this.TYPES = types;
@@ -103,25 +103,32 @@ class monCard extends Card {
 
 class penMonCard extends monCard {
 	final int PEND_LEVEL;
+	final String PEND_LORE;
 	
 	public penMonCard() {
 		super();
 		this.PEND_LEVEL = 0;
+		this.PEND_LORE = null;
 	}
 	
-	public penMonCard(String name, int index, monAttribute mon_attri, monType mon_type, Type[] types, String lore, int level_rank, int pend_level, int attack, int defense) {
-		super(name, index, mon_attri, mon_type, types, lore, level_rank, attack, defense);
+	public penMonCard(String name, int index, cardType cardType, monAttribute mon_attri, monType mon_type, Type[] types, String pend_lore, String lore, int level_rank, int pend_level, int attack, int defense) {
+		super(name, index, cardType, mon_attri, mon_type, types, lore, level_rank, attack, defense);
 		this.PEND_LEVEL = pend_level;
+		this.PEND_LORE = pend_lore;
 	}
 	
 	public int getPendLevel() {
 		return PEND_LEVEL;
 	}
+	
+	public String toString() {
+		return super.toString() + " " + PEND_LEVEL + " " + PEND_LORE;
+	}
 }
 
 class linkMonCard extends monCard {
 	final int LINK_RATING;
-	final link_arrow[] LINK_ARROWS;
+	final linkArrow[] LINK_ARROWS;
 	
 	public linkMonCard() {
 		super();
@@ -129,8 +136,8 @@ class linkMonCard extends monCard {
 		this.LINK_ARROWS = null;
 	}
 	
-	public linkMonCard(String name, int index, monAttribute mon_attri, monType mon_type, Type[] types, String lore, int link_rating, int attack, int defense, link_arrow[] link_arrows) {
-		super(name, index, mon_attri, mon_type, types, lore, 0, attack, defense);
+	public linkMonCard(String name, int index, cardType cardType, monAttribute mon_attri, monType mon_type, Type[] types, String lore, int link_rating, int attack, int defense, linkArrow[] link_arrows) {
+		super(name, index, cardType, mon_attri, mon_type, types, lore, 0, attack, defense);
 		this.LINK_RATING = link_rating;
 		this.LINK_ARROWS = link_arrows;
 	}
@@ -139,7 +146,7 @@ class linkMonCard extends monCard {
 		return LINK_RATING;
 	}
 	
-	public link_arrow[] getLinkArrows() {
+	public linkArrow[] getLinkArrows() {
 		return LINK_ARROWS;
 	}
 	
@@ -161,8 +168,8 @@ abstract class stCard extends Card {
 		this.ICON = null;
 	}
 	
-	public stCard(String name, int index, String lore, Type type, Icon st_icon) {
-		super(name, index, type, lore);
+	public stCard(String name, int index, cardType cardType, String lore, Icon st_icon) {
+		super(name, index, cardType, lore);
 		this.ICON = st_icon;
 	}
 	
@@ -180,8 +187,8 @@ class spellCard extends stCard {
 		super();
 	}
 	
-	public spellCard(String name, int index, String lore, Type type, Icon st_icon) {
-		super(name, index, lore, type, st_icon);
+	public spellCard(String name, int index, cardType cardType, String lore, Icon st_icon) {
+		super(name, index, cardType, lore, st_icon);
 	}
 }
 
@@ -190,7 +197,7 @@ class trapCard extends stCard {
 		super();
 	}
 	
-	public trapCard(String name, int index, String lore, Type type, Icon st_icon) {
-		super(name, index, lore, type, st_icon);
+	public trapCard(String name, int index, cardType cardType, String lore, Icon st_icon) {
+		super(name, index, cardType, lore, st_icon);
 	}
 }

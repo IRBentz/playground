@@ -1,6 +1,6 @@
 package ygo_package;
 
-public enum link_arrow {
+public enum linkArrow {
 	UP,
 	UP_RIGHT,
 	RIGHT,
