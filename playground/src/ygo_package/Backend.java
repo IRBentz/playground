@@ -4,13 +4,19 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public abstract class Backend {
 	public static ArrayList<Card> database = new ArrayList<Card>();
+	public static ArrayList<int[]> fal_list = new ArrayList<int[]>();
 	
-	public static void start(String fileName) {
-		buildDB(fileName);
+	
+	public static void start(String db_fileName, String fal_fileName) {
+		buildDB(db_fileName);
+		buildFaL(fal_fileName);
+		assignFaL();
+		debugCheck();
 	}
 	
 	private static void buildDB(String fileName) {
@@ -30,9 +36,6 @@ public abstract class Backend {
 			
 			switch (type) {
 				case "mon":
-				case "fus":
-				case "syn":
-				case "xyz":
 					returnedList = pullMonBaseStats(input_file, ";");
 					
 					database.add(
@@ -42,6 +45,24 @@ public abstract class Backend {
 									(monAttribute) returnedList[1], 
 									(monType) returnedList[2], 
 									(Type[]) returnedList[3], 
+									(String) ((Object[]) returnedList[0])[2], 
+									(Integer) returnedList[4], 
+									(Integer) returnedList[5], 
+									(Integer) returnedList[6]));
+					break;
+				case "fus":
+				case "syn":
+				case "xyz":
+					returnedList = pullMonBaseStats(input_file, ";");
+					
+					database.add(
+							new extraMonCard((String) ((Object[]) returnedList[0])[0], 
+									(Integer) ((Object[]) returnedList[0])[1], 
+									cardType.MONSTER, 
+									(monAttribute) returnedList[1], 
+									(monType) returnedList[2], 
+									(Type[]) returnedList[3], 
+									pullNextTextBlock(input_file, ";"),
 									(String) ((Object[]) returnedList[0])[2], 
 									(Integer) returnedList[4], 
 									(Integer) returnedList[5], 
@@ -76,6 +97,7 @@ public abstract class Backend {
 									(monAttribute) returnedList[1], 
 									(monType) returnedList[2], 
 									(Type[]) returnedList[3],
+									pullNextTextBlock(input_file, ";"),
 									(String) ((Object[]) returnedList[0])[2],
 									(Integer) returnedList[5], 
 									(Integer) returnedList[6],
@@ -110,13 +132,6 @@ public abstract class Backend {
 			}
 		}
 		input_file.close();
-		
-		/*
-		for(Card card : database) {
-			System.out.println(card);
-		}
-		*/
-		Arrays.stream(database.toArray()).forEach(card -> System.out.println(card));
 	}
 	
 	private static Object[] pullBaseStats(Scanner target_scanner, String delimiter) {
@@ -199,5 +214,33 @@ public abstract class Backend {
 		
 		new Error("Target Enum: " + inputString + " not found.").printStackTrace();
 		return null;
+	}
+	
+	private static void buildFaL(String fileName) {
+		Scanner input_file;
+		try {
+			input_file = new Scanner(new File(fileName));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return;
+		}
+		System.out.println("Successfully found file at: " + new File(fileName).getPath());
+		
+		while(input_file.hasNext()) {
+			fal_list.add(new int[] {input_file.nextInt(), input_file.nextInt()});
+		}
+		input_file.close();
+	}
+	
+	private static void assignFaL() {
+		for (Card card : database)
+			for (int[] pair : fal_list)
+				if(((Card) card).getIndex() == pair[0])
+					((Card) card).setAllowedCopies(pair[1]);
+	}
+	
+	private static void debugCheck() {
+		database.sort(Comparator.comparing(Card::getAllowedCopies));
+		Arrays.stream(database.toArray()).forEach(card -> System.out.println(card));
 	}
 }

@@ -4,12 +4,14 @@ public abstract class Card {
 	private final String NAME, LORE;
 	private final cardType TYPE;
 	private final int CARD_IND;
+	private int copies_allowed;
 	
 	public Card() {
 		this.NAME = null;
 		this.TYPE = null;
 		this.CARD_IND = 0;
 		this.LORE = null;
+		this.copies_allowed = 0;
 	}
 	
 	public Card(String name, int index, cardType type, String lore) {
@@ -35,8 +37,16 @@ public abstract class Card {
 		return CARD_IND;
 	}
 	
+	public int getAllowedCopies() {
+		return copies_allowed;
+	}
+	
+	public void setAllowedCopies(int newAmount) {
+		copies_allowed = newAmount;
+	}
+	
 	public String toString() {
-		return NAME + " " + CARD_IND + " " + TYPE + " " + LORE;
+		return String.format("%08d", CARD_IND) + " | " + copies_allowed + " | " + NAME + " | " + TYPE + " | " + LORE;
 	}
 }
 
@@ -92,12 +102,34 @@ class monCard extends Card {
 	
 	public String toString() {
 		String types = "";
-		for(int i = 0; i < TYPES.length; i++) {
-			types += TYPES[i].toString() + " ";
+		for(Type type : TYPES) {
+			types += type.toString() + " ";
 		}
 		types = types.substring(0, types.length() - 1);
 		
-		return super.toString() + " " + MON_ATTRI + " " + MON_TYPE + " " + types + " " + LEVEL_RANK + " " + ATTACK + " " + DEFENSE;
+		return super.toString() + " | " + MON_ATTRI + " | " + MON_TYPE + " | " + types + " | " + LEVEL_RANK + " | " + ATTACK + " | " + DEFENSE;
+	}
+}
+
+class extraMonCard extends monCard {
+	final String SUMMON_REQ;
+	
+	public extraMonCard() {
+		super();
+		this.SUMMON_REQ = null;
+	}
+	
+	public extraMonCard(String name, int index, cardType cardType, monAttribute mon_attri, monType mon_type, Type[] types, String summon_req, String lore, int level_rank, int attack, int defense) {
+		super(name, index, cardType, mon_attri, mon_type, types, lore, level_rank, attack, defense);
+		this.SUMMON_REQ = summon_req;
+	}
+	
+	public String getSummonReq() {
+		return SUMMON_REQ;
+	}
+	
+	public String toString() {
+		return super.toString() + " | " + SUMMON_REQ;
 	}
 }
 
@@ -122,11 +154,11 @@ class penMonCard extends monCard {
 	}
 	
 	public String toString() {
-		return super.toString() + " " + PEND_LEVEL + " " + PEND_LORE;
+		return super.toString() + " | " + PEND_LEVEL + " | " + PEND_LORE;
 	}
 }
 
-class linkMonCard extends monCard {
+class linkMonCard extends extraMonCard {
 	final int LINK_RATING;
 	final linkArrow[] LINK_ARROWS;
 	
@@ -136,8 +168,8 @@ class linkMonCard extends monCard {
 		this.LINK_ARROWS = null;
 	}
 	
-	public linkMonCard(String name, int index, cardType cardType, monAttribute mon_attri, monType mon_type, Type[] types, String lore, int link_rating, int attack, linkArrow[] link_arrows) {
-		super(name, index, cardType, mon_attri, mon_type, types, lore, link_rating, attack, link_rating);
+	public linkMonCard(String name, int index, cardType cardType, monAttribute mon_attri, monType mon_type, Type[] types, String summon_req, String lore, int link_rating, int attack, linkArrow[] link_arrows) {
+		super(name, index, cardType, mon_attri, mon_type, types, summon_req, lore, link_rating, attack, link_rating);
 		this.LINK_RATING = link_rating;
 		this.LINK_ARROWS = link_arrows;
 	}
@@ -156,7 +188,7 @@ class linkMonCard extends monCard {
 			link_arrows += link_arrow.toString() + " ";
 		}
 		link_arrows = link_arrows.substring(0, link_arrows.length() - 1);
-		return super.toString() + " " + LINK_RATING + " " + link_arrows;
+		return super.toString() + " | " + LINK_RATING + " | " + link_arrows;
 	}
 }
 
@@ -178,7 +210,7 @@ abstract class stCard extends Card {
 	}
 	
 	public String toString() {
-		return super.toString() + " " + ICON;
+		return super.toString() + " | " + ICON;
 	}
 }
 

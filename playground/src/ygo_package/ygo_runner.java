@@ -4,8 +4,9 @@ package ygo_package;
 public class ygo_runner {
 
 	public ygo_runner() {
-		String fileName = "src//ygo_package//database.data";
-		Backend.start(fileName);
+		String db_fileName = "src//ygo_package//database.data";
+		String fal_fileName = "src//ygo_package//forbidden&limited_list.data";
+		Backend.start(db_fileName, fal_fileName);
 	}
 
 	public static void main(String[] args) {
