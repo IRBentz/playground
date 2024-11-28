@@ -7,7 +7,3 @@ public class Effect {
 enum EffectTarget {
 	
 }
-
-enum Architype {
-	 
-}
