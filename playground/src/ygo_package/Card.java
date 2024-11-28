@@ -99,8 +99,7 @@ public abstract class Card {
 
 	/**
 	 * @author IRBentz
-	 * @return {String of: 8 digit format card index, max copies allowed, name, type, and lore; Separated by a '|' character.}
-	 * Overrides toString() in Object
+	 * @return String of: 8 digit format card index, max copies allowed, name, type, and lore; Separated by a '|' character.
 	 */
 	public String toString() {
 		return String.format("%08d", CARD_IND) + " | " + max_copies_allowed + " | " + NAME + " | " + TYPE + " | " + LORE;
@@ -277,7 +276,7 @@ class monCard extends Card {
 	
 	/**
 	 * @author IRBentz
-	 * @return {Card.toString() return, Monster Attribute, Monster Type, types, Level/Rank, Attack, and Defense. Separated by a '|' character.}
+	 * @return Card.toString() return, Monster Attribute, Monster Type, types, Level/Rank, Attack, and Defense. Separated by a '|' character.
 	 */
 	public String toString() {
 		String types = "";
