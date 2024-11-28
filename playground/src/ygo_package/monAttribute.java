@@ -1,13 +1,13 @@
 package ygo_package;
 
 public enum monAttribute {
-	LIGHT,
 	DARK,
-	WIND,
-	WATER,
-	FIRE,
+	DIVINE,
 	EARTH,
-	DIVINE
+	FIRE,
+	LIGHT,
+	WATER,
+	WIND
 }
 
 

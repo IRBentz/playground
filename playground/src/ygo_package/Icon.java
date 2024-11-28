@@ -1,11 +1,11 @@
 package ygo_package;
 
 public enum Icon {
+	CONTINUOUS,
+	COUNTER,
 	EQUIP,
 	FIELD,
-	QUICK_PLAY,
-	RITUAL,
-	CONTINUOUS,
 	NORMAL_ST,
-	COUNTER
+	QUICK_PLAY,
+	RITUAL
 }
