@@ -1,0 +1,10 @@
+src//ygo_package//data//
+monster.data
+pendulum_monster.data
+fusion_monster.data
+synchro_monster.data
+xyz_monster.data
+link_monster.data
+spell.data
+trap.data
+fal.data

@@ -7,9 +7,8 @@ public class ygo_runner {
 	}
 
 	public ygo_runner() {
-		String db_fileName = "src//ygo_package//card.data";
-		String fal_fileName = "src//ygo_package//fal.data";
-		Backend.start(db_fileName, fal_fileName);
+		String fileName = "src//ygo_package//file_pointers.txt";
+		Backend.start(fileName);
 	}
 
 }
