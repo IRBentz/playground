@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Scanner;
+
+import ygo_package.card_package.*;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 

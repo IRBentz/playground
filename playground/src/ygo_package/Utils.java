@@ -3,6 +3,8 @@ package ygo_package;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import ygo_package.card_package.*;
+
 public abstract class Utils {
 	public static Object[] pullBaseStats(Scanner target_scanner, String delimiter) {
 		return new Object[] { pullNextTextBlock(target_scanner, delimiter), target_scanner.nextInt(),
@@ -108,19 +110,17 @@ public abstract class Utils {
 	}
 
 	public static String pullNextTextBlock(Scanner target_scanner) {
-		String return_string = target_scanner.next();
-
+		String return_string = target_scanner.nextLine();
+		
 		return return_string.substring(0, return_string.length() - 1);
 	}
 
 	public static Type[] pullNextTypeBlock(Scanner target_scanner) {
+		String[] input = target_scanner.nextLine().split(" ");
 		ArrayList<Type> types_list = new ArrayList<Type>();
-		String nextString = target_scanner.next();
-		while (!nextString.equals("~")) {
-			types_list.add((Type) stringConvert(nextString));
-			nextString = target_scanner.next();
+		for(String in : input) {
+			types_list.add((Type) stringConvert(in));
 		}
-
 		return types_list.toArray(new Type[types_list.size()]);
 	}
 
