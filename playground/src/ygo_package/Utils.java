@@ -99,13 +99,11 @@ public abstract class Utils {
 	}
 	
 	public static linkArrow[] pullNextLinkArrowBlock(Scanner target_scanner) {
+		String[] input = target_scanner.nextLine().split(" ");
 		ArrayList<linkArrow> linkArrow_list = new ArrayList<linkArrow>();
-		String nextString = target_scanner.next();
-		while (!nextString.equals("~")) {
-			linkArrow_list.add((linkArrow) stringConvert(nextString));
-			nextString = target_scanner.next();
+		for(String in : input) {
+			linkArrow_list.add((linkArrow) stringConvert(in));
 		}
-
 		return linkArrow_list.toArray(new linkArrow[linkArrow_list.size()]);
 	}
 
