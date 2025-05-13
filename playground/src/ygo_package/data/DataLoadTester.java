@@ -10,41 +10,63 @@ import ygo_package.card_package.*;
 
 
 public class DataLoadTester {
-	private Scanner[] FileScanners;
 	public DataLoadTester() {
+		Scanner pointerFileScanner;
 		try {
-			FileScanners = new Scanner[] {new Scanner(new File("src//ygo_package//data//link_monster_new.data"))};
+			pointerFileScanner = new Scanner(new File("src//ygo_package//file_pointers_new.txt"));
+			System.out.println("Found file at: " + new File("src//ygo_package//file_pointers_new.txt").getPath());
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-			System.exit(1);
+			return;
 		}
 		
-		Scanner input = FileScanners[0];
+		String filePath = pointerFileScanner.nextLine();
+		System.out.println("Successfully found designated file path at: " + filePath.replace("//", "\\"));
+		
+		ArrayList<Scanner> fileScanners = new ArrayList<Scanner>();
+		int numberOfFiles = 8;
+		for (int i = 0; i < numberOfFiles; i++) {
+			try {
+				String fileLoc = filePath + pointerFileScanner.nextLine();
+				System.out.println("Successfully found Target file: " + fileLoc.replace("//", "\\"));
+				fileScanners.add(new Scanner(new File(fileLoc)));
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+				pointerFileScanner.close();
+				return;
+			}
+		}
+		Scanner input = fileScanners.get(0);
 		ArrayList<Card> cards = new ArrayList<Card>();
-		/* Monster
+		Object[] baseStats;
+		//* Monster
 		while (input.hasNext()) {
+			baseStats = Utils.pullMonBaseStats(input);
 			cards.add(new monCard(
-					input.nextLine(),
-					(int) Integer.parseInt(input.nextLine()),
-					(monAttribute) Utils.stringConvert(input.nextLine()),
-					(monType) Utils.stringConvert(input.nextLine()),
-					(Type[]) Utils.pullNextTypeBlock(input),
+					(String) ((Object[]) baseStats[0])[0],
+					(int) ((Object[]) baseStats[0])[1],
+					(monAttribute) baseStats[1],
+					(monType) baseStats[2],
+					(Type[]) baseStats[3],
 					input.nextLine(),
 					(int) Integer.parseInt(input.nextLine()),
 					(int) Integer.parseInt(input.nextLine()),
 					(int) Integer.parseInt(input.nextLine())
 					));
 			input.nextLine();
+			baseStats = null;
 		}
-		*/
-		/* Pendulum
+		//*/
+		//* Pendulum
+		input = fileScanners.get(1);
 		while (input.hasNext()) {
+			baseStats = Utils.pullMonBaseStats(input);
 			cards.add(new penMonCard(
-					input.nextLine(),
-					(int) Integer.parseInt(input.nextLine()),
-					(monAttribute) Utils.stringConvert(input.nextLine()),
-					(monType) Utils.stringConvert(input.nextLine()),
-					(Type[]) Utils.pullNextTypeBlock(input),
+					(String) ((Object[]) baseStats[0])[0],
+					(int) ((Object[]) baseStats[0])[1],
+					(monAttribute) baseStats[1],
+					(monType) baseStats[2],
+					(Type[]) baseStats[3],
 					input.nextLine(),
 					input.nextLine(),
 					(int) Integer.parseInt(input.nextLine()),
@@ -53,31 +75,41 @@ public class DataLoadTester {
 					(int) Integer.parseInt(input.nextLine())
 					));
 			input.nextLine();
+			baseStats = null;
 		}
-		*/
-		/*Fusion and Synchro Monster
-		while(input.hasNextLine()) {
-			cards.add(new extraMonCard(
-					input.nextLine(), (int) Integer.parseInt(input.nextLine()),
-					(monAttribute) Utils.stringConvert(input.nextLine()),
-					(monType) Utils.stringConvert(input.nextLine()),
-					(Type[]) Utils.pullNextTypeBlock(input),
-					input.nextLine(),
-					input.nextLine(),
-					(int) Integer.parseInt(input.nextLine()),
-					(int) Integer.parseInt(input.nextLine()),
-					(int) Integer.parseInt(input.nextLine())
-					));
-			input.nextLine();
+		//*/
+		//*Fusion and Synchro Monster
+		for(int i = 2; i < 4; i++) {
+			input = fileScanners.get(i);
+			while(input.hasNextLine()) {
+				baseStats = Utils.pullMonBaseStats(input);
+				cards.add(new extraMonCard(
+						(String) ((Object[]) baseStats[0])[0],
+						(int) ((Object[]) baseStats[0])[1],
+						(monAttribute) baseStats[1],
+						(monType) baseStats[2],
+						(Type[]) baseStats[3],
+						input.nextLine(),
+						input.nextLine(),
+						(int) Integer.parseInt(input.nextLine()),
+						(int) Integer.parseInt(input.nextLine()),
+						(int) Integer.parseInt(input.nextLine())
+						));
+				input.nextLine();
+				baseStats = null;
+			}
 		}
-		*/
-		/* XYZ
+		//*/
+		//* XYZ
+		input = fileScanners.get(4);
 		while (input.hasNext()) {
+			baseStats = Utils.pullMonBaseStats(input);
 			cards.add(new xyzMonCard(
-					input.nextLine(), (int) Integer.parseInt(input.nextLine()),
-					(monAttribute) Utils.stringConvert(input.nextLine()),
-					(monType) Utils.stringConvert(input.nextLine()),
-					(Type[]) Utils.pullNextTypeBlock(input),
+					(String) ((Object[]) baseStats[0])[0],
+					(int) ((Object[]) baseStats[0])[1],
+					(monAttribute) baseStats[1],
+					(monType) baseStats[2],
+					(Type[]) baseStats[3],
 					input.nextLine(),
 					input.nextLine(),
 					(int) Integer.parseInt(input.nextLine()),
@@ -85,15 +117,19 @@ public class DataLoadTester {
 					(int) Integer.parseInt(input.nextLine())
 					));
 			input.nextLine();
+			baseStats = null;
 		}
-		*/
-		/* Link
+		//*/
+		//* Link
+		input = fileScanners.get(5);
 		while (input.hasNextLine()) {
+			baseStats = Utils.pullMonBaseStats(input);
 			cards.add(new linkMonCard(
-					input.nextLine(), (int) Integer.parseInt(input.nextLine()),
-					(monAttribute) Utils.stringConvert(input.nextLine()),
-					(monType) Utils.stringConvert(input.nextLine()),
-					(Type[]) Utils.pullNextTypeBlock(input),
+					(String) ((Object[]) baseStats[0])[0],
+					(int) ((Object[]) baseStats[0])[1],
+					(monAttribute) baseStats[1],
+					(monType) baseStats[2],
+					(Type[]) baseStats[3],
 					input.nextLine(),
 					input.nextLine(),
 					(int) Integer.parseInt(input.nextLine()),
@@ -101,30 +137,37 @@ public class DataLoadTester {
 					(linkArrow[]) Utils.pullNextLinkArrowBlock(input)
 					));
 			input.nextLine();
+			baseStats = null;
 		}
-		*/
-		/* Spell
+		//*/
+		//* Spell
+		input = fileScanners.get(6);
 		while(input.hasNextLine()) {
+			baseStats = Utils.pullSTBaseStats(input);
 			cards.add(new spellCard(
-					input.nextLine(),
-					(int) Integer.parseInt(input.nextLine()),
-					input.nextLine(),
-					(Icon) Utils.stringConvert(input.nextLine())
+					(String) ((Object[]) baseStats[0])[0],
+					(int) ((Object[]) baseStats[0])[1],
+					(String) baseStats[1],
+					(Icon) baseStats[2]
 					));
 			input.nextLine();
+			baseStats = null;
 		}
-		*/
-		/* Trap
+		//*/
+		//* Trap
+		input = fileScanners.get(7);
 		while(input.hasNextLine()) {
+			baseStats = Utils.pullSTBaseStats(input);
 			cards.add(new trapCard(
-					input.nextLine(),
-					(int) Integer.parseInt(input.nextLine()),
-					input.nextLine(),
-					(Icon) Utils.stringConvert(input.nextLine())
+					(String) ((Object[]) baseStats[0])[0],
+					(int) ((Object[]) baseStats[0])[1],
+					(String) baseStats[1],
+					(Icon) baseStats[2]
 					));
 			input.nextLine();
+			baseStats = null;
 		}
-		*/
+		//*/
 		for (Card card : cards) {
 			System.out.println(card);
 		}

@@ -88,14 +88,19 @@ public abstract class Utils {
 	 * Delimiter-less Methods
 	 */
 	public static Object[] pullBaseStats(Scanner target_scanner) {
-		return new Object[] { pullNextTextBlock(target_scanner), target_scanner.nextInt(),
-				pullNextTextBlock(target_scanner) };
+		return new Object[] {
+				(String) target_scanner.nextLine(),
+				(int) Integer.parseInt(target_scanner.nextLine()),
+				};
 	}
-
+	
 	public static Object[] pullMonBaseStats(Scanner target_scanner) {
-		return new Object[] { pullBaseStats(target_scanner), stringConvert(target_scanner.next()),
-				stringConvert(target_scanner.next()), (Type[]) pullNextTypeBlock(target_scanner, ";"), target_scanner.nextInt(),
-				target_scanner.nextInt(), target_scanner.nextInt() };
+		return new Object[] { 
+				(Object[]) pullBaseStats(target_scanner),
+				(monAttribute) Utils.stringConvert(target_scanner.nextLine()),
+				(monType) Utils.stringConvert(target_scanner.nextLine()),
+				(Type[]) Utils.pullNextTypeBlock(target_scanner)
+				};
 	}
 	
 	public static linkArrow[] pullNextLinkArrowBlock(Scanner target_scanner) {
@@ -105,12 +110,6 @@ public abstract class Utils {
 			linkArrow_list.add((linkArrow) stringConvert(in));
 		}
 		return linkArrow_list.toArray(new linkArrow[linkArrow_list.size()]);
-	}
-
-	public static String pullNextTextBlock(Scanner target_scanner) {
-		String return_string = target_scanner.nextLine();
-		
-		return return_string.substring(0, return_string.length() - 1);
 	}
 
 	public static Type[] pullNextTypeBlock(Scanner target_scanner) {
@@ -123,7 +122,11 @@ public abstract class Utils {
 	}
 
 	public static Object[] pullSTBaseStats(Scanner target_scanner) {
-		return new Object[] { pullBaseStats(target_scanner), stringConvert(target_scanner.next()) };
+		return new Object[] { 
+				(Object[]) pullBaseStats(target_scanner),
+				(String) target_scanner.nextLine(),
+				(Icon) Utils.stringConvert(target_scanner.nextLine())
+				};
 	}
 }
 
