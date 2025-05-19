@@ -1,12 +1,12 @@
-package ygo_package.card_package;
+package ygo_eng.card;
 
-public class monCard extends Card {
+public class MonCard extends Card {
 	private final int LEVEL_RANK, ATTACK, DEFENSE;
-	private final monAttribute MON_ATTRI;
-	private final monType MON_TYPE;
+	private final MonAttribute MON_ATTRI;
+	private final MonType MON_TYPE;
 	private final Type[] TYPES;
 
-	public monCard() {
+	public MonCard() {
 		super();
 		this.MON_ATTRI = null;
 		this.MON_TYPE = null;
@@ -16,9 +16,9 @@ public class monCard extends Card {
 		this.DEFENSE = 0;
 	}
 
-	public monCard(String name, int index, monAttribute mon_attri, monType mon_type, Type[] types, String lore,
+	public MonCard(String name, int index, MonAttribute mon_attri, MonType mon_type, Type[] types, String lore,
 			int level_rank, int attack, int defense) {
-		super(name, index, cardType.MONSTER, lore);
+		super(name, index, CardType.MONSTER, lore);
 		this.MON_ATTRI = mon_attri;
 		this.MON_TYPE = mon_type;
 		this.TYPES = types;
@@ -31,7 +31,7 @@ public class monCard extends Card {
 		return ATTACK;
 	}
 
-	public monAttribute getAttribute() {
+	public MonAttribute getAttribute() {
 		return MON_ATTRI;
 	}
 
@@ -43,7 +43,7 @@ public class monCard extends Card {
 		return LEVEL_RANK;
 	}
 
-	public monType getMonType() {
+	public MonType getMonType() {
 		return MON_TYPE;
 	}
 

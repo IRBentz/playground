@@ -1,4 +1,4 @@
-package ygo_package.card_package;
+package ygo_eng.card;
 
 import java.util.ArrayList;
 
@@ -7,7 +7,7 @@ public abstract class Card {
 	private final int CARD_IND;
 	private int max_copies_allowed;
 	private final String NAME, LORE;
-	private final cardType TYPE;
+	private final CardType TYPE;
 
 	public Card() {
 		this.NAME = null;
@@ -17,7 +17,7 @@ public abstract class Card {
 		this.max_copies_allowed = 0;
 	}
 
-	public Card(String name, int index, cardType type, String lore) {
+	public Card(String name, int index, CardType type, String lore) {
 		this.NAME = name;
 		this.CARD_IND = index;
 		this.TYPE = type;
@@ -44,7 +44,7 @@ public abstract class Card {
 		return NAME;
 	}
 
-	public cardType getType() {
+	public CardType getType() {
 		return TYPE;
 	}
 
@@ -63,15 +63,15 @@ public abstract class Card {
 	}
 }
 
-abstract class stCard extends Card {
+abstract class StCard extends Card {
 	private final Icon ICON;
 
-	public stCard() {
+	public StCard() {
 		super();
 		this.ICON = null;
 	}
 
-	public stCard(String name, int index, cardType cardType, String lore, Icon st_icon) {
+	public StCard(String name, int index, CardType cardType, String lore, Icon st_icon) {
 		super(name, index, cardType, lore);
 		this.ICON = st_icon;
 	}

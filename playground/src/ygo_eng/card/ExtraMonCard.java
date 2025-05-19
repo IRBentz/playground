@@ -1,14 +1,14 @@
-package ygo_package.card_package;
+package ygo_eng.card;
 
-public class extraMonCard extends monCard {
+public class ExtraMonCard extends MonCard {
 	final String SUMMON_REQ;
 
-	public extraMonCard() {
+	public ExtraMonCard() {
 		super();
 		this.SUMMON_REQ = null;
 	}
 
-	public extraMonCard(String name, int index, monAttribute mon_attri, monType mon_type, Type[] types,
+	public ExtraMonCard(String name, int index, MonAttribute mon_attri, MonType mon_type, Type[] types,
 			String summon_req, String lore, int level_rank, int attack, int defense) {
 		super(name, index, mon_attri, mon_type, types, lore, level_rank, attack, defense);
 		this.SUMMON_REQ = summon_req;

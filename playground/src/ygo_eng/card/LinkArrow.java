@@ -1,5 +1,5 @@
-package ygo_package.card_package;
+package ygo_eng.card;
 
-public enum linkArrow {
+public enum LinkArrow {
 	DOWN, DOWN_LEFT, DOWN_RIGHT, LEFT, RIGHT, UP, UP_LEFT, UP_RIGHT
 }

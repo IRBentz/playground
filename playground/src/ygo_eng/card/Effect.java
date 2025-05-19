@@ -1,4 +1,4 @@
-package ygo_package.card_package;
+package ygo_eng.card;
 
 public class Effect {
 

@@ -1,15 +1,15 @@
-package ygo_package.card_package;
+package ygo_eng.card;
 
 import java.util.ArrayList;
 
-public class xyzMonCard extends extraMonCard {
-	private ArrayList<Card> xyzMaterials = new ArrayList<Card>();
+public class XyzMonCard extends ExtraMonCard {
+	private ArrayList<Card> xyzMaterials = new ArrayList<>();
 
-	public xyzMonCard() {
+	public XyzMonCard() {
 		super();
 	}
 
-	public xyzMonCard(String name, int index, monAttribute mon_attri, monType mon_type, Type[] types, String summon_req,
+	public XyzMonCard(String name, int index, MonAttribute mon_attri, MonType mon_type, Type[] types, String summon_req,
 			String lore, int rank, int attack, int defense) {
 		super(name, index, mon_attri, mon_type, types, summon_req, lore, rank, attack, defense);
 	}

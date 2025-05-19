@@ -1,4 +1,4 @@
-src//ygo_package//data//
+src//ygo_eng//data//
 monster_new.data
 pendulum_monster_new.data
 fusion_monster_new.data
