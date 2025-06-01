@@ -11,15 +11,33 @@ import ygo_eng.card.MonType;
 import ygo_eng.card.Type;
 
 public abstract class Utils {
+	public static Object[] pullBaseStats(Scanner target_scanner) {
+		return new Object[] { target_scanner.nextLine(), Integer.parseInt(target_scanner.nextLine()), };
+	}
+
 	public static Object[] pullBaseStats(Scanner target_scanner, String delimiter) {
 		return new Object[] { pullNextTextBlock(target_scanner, delimiter), target_scanner.nextInt(),
 				pullNextTextBlock(target_scanner, delimiter) };
+	}
+
+	public static Object[] pullMonBaseStats(Scanner target_scanner) {
+		return new Object[] { pullBaseStats(target_scanner), Utils.stringToMonAttribute(target_scanner.nextLine()),
+				Utils.stringToMonType(target_scanner.nextLine()), Utils.pullNextTypeBlock(target_scanner) };
 	}
 
 	public static Object[] pullMonBaseStats(Scanner target_scanner, String delimiter) {
 		return new Object[] { pullBaseStats(target_scanner, delimiter), stringConvert(target_scanner.next()),
 				stringConvert(target_scanner.next()), pullNextTypeBlock(target_scanner, ";"), target_scanner.nextInt(),
 				target_scanner.nextInt(), target_scanner.nextInt() };
+	}
+
+	public static LinkArrow[] pullNextLinkArrowBlock(Scanner target_scanner) {
+		String[] input = target_scanner.nextLine().split(" ");
+		ArrayList<LinkArrow> linkArrow_list = new ArrayList<>();
+		for (String in : input) {
+			linkArrow_list.add(stringToLinkArrow(in));
+		}
+		return linkArrow_list.toArray(new LinkArrow[linkArrow_list.size()]);
 	}
 
 	public static LinkArrow[] pullNextLinkArrowBlock(Scanner target_scanner, String delimiter) {
@@ -44,6 +62,15 @@ public abstract class Utils {
 		return return_string.substring(0, return_string.length() - 1);
 	}
 
+	public static Type[] pullNextTypeBlock(Scanner target_scanner) {
+		String[] input = target_scanner.nextLine().split(" ");
+		ArrayList<Type> types_list = new ArrayList<>();
+		for (String in : input) {
+			types_list.add(stringToType(in));
+		}
+		return types_list.toArray(new Type[types_list.size()]);
+	}
+
 	public static Type[] pullNextTypeBlock(Scanner target_scanner, String delimiter) {
 		ArrayList<Type> types_list = new ArrayList<>();
 		String nextString = target_scanner.next();
@@ -53,6 +80,11 @@ public abstract class Utils {
 		}
 
 		return types_list.toArray(new Type[types_list.size()]);
+	}
+
+	public static Object[] pullSTBaseStats(Scanner target_scanner) {
+		return new Object[] { pullBaseStats(target_scanner), target_scanner.nextLine(),
+				Utils.stringToIcon(target_scanner.nextLine()) };
 	}
 
 	public static Object[] pullSTBaseStats(Scanner target_scanner, String delimiter) {
@@ -87,7 +119,26 @@ public abstract class Utils {
 		return unfoundEnum(inputString);
 	}
 
-	// Newer Utility Methods
+	public static CardType stringToCardType(String inputString) {
+		for (CardType target_enum : CardType.class.getEnumConstants())
+			if (target_enum.toString().equals(inputString))
+				return target_enum;
+		return (CardType) unfoundEnum(inputString);
+	}
+
+	public static Icon stringToIcon(String inputString) {
+		for (Icon target_enum : Icon.class.getEnumConstants())
+			if (target_enum.toString().equals(inputString))
+				return target_enum;
+		return (Icon) unfoundEnum(inputString);
+	}
+
+	public static LinkArrow stringToLinkArrow(String inputString) {
+		for (LinkArrow target_enum : LinkArrow.class.getEnumConstants())
+			if (target_enum.toString().equals(inputString))
+				return target_enum;
+		return (LinkArrow) unfoundEnum(inputString);
+	}
 
 	public static MonAttribute stringToMonAttribute(String inputString) {
 		for (MonAttribute target_enum : MonAttribute.class.getEnumConstants())
@@ -110,65 +161,9 @@ public abstract class Utils {
 		return (Type) unfoundEnum(inputString);
 	}
 
-	public static CardType stringToCardType(String inputString) {
-		for (CardType target_enum : CardType.class.getEnumConstants())
-			if (target_enum.toString().equals(inputString))
-				return target_enum;
-		return (CardType) unfoundEnum(inputString);
-	}
-
-	public static Icon stringToIcon(String inputString) {
-		for (Icon target_enum : Icon.class.getEnumConstants())
-			if (target_enum.toString().equals(inputString))
-				return target_enum;
-		return (Icon) unfoundEnum(inputString);
-	}
-
-	public static LinkArrow stringToLinkArrow(String inputString) {
-		for (LinkArrow target_enum : LinkArrow.class.getEnumConstants())
-			if (target_enum.toString().equals(inputString))
-				return target_enum;
-		return (LinkArrow) unfoundEnum(inputString);
-	}
-
 	private static Object unfoundEnum(String inputString) {
 		new Error("Enum for \"" + inputString + "\" could not be found.").printStackTrace();
 		System.exit(1);
 		return null;
-	}
-
-	/*
-	 * Delimiter-less Methods
-	 */
-	public static Object[] pullBaseStats(Scanner target_scanner) {
-		return new Object[] { target_scanner.nextLine(), Integer.parseInt(target_scanner.nextLine()), };
-	}
-
-	public static Object[] pullMonBaseStats(Scanner target_scanner) {
-		return new Object[] { pullBaseStats(target_scanner), Utils.stringToMonAttribute(target_scanner.nextLine()),
-				Utils.stringToMonType(target_scanner.nextLine()), Utils.pullNextTypeBlock(target_scanner) };
-	}
-
-	public static LinkArrow[] pullNextLinkArrowBlock(Scanner target_scanner) {
-		String[] input = target_scanner.nextLine().split(" ");
-		ArrayList<LinkArrow> linkArrow_list = new ArrayList<>();
-		for (String in : input) {
-			linkArrow_list.add(stringToLinkArrow(in));
-		}
-		return linkArrow_list.toArray(new LinkArrow[linkArrow_list.size()]);
-	}
-
-	public static Type[] pullNextTypeBlock(Scanner target_scanner) {
-		String[] input = target_scanner.nextLine().split(" ");
-		ArrayList<Type> types_list = new ArrayList<>();
-		for (String in : input) {
-			types_list.add(stringToType(in));
-		}
-		return types_list.toArray(new Type[types_list.size()]);
-	}
-
-	public static Object[] pullSTBaseStats(Scanner target_scanner) {
-		return new Object[] { pullBaseStats(target_scanner), target_scanner.nextLine(),
-				Utils.stringToIcon(target_scanner.nextLine()) };
 	}
 }

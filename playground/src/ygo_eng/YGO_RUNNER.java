@@ -7,16 +7,9 @@ import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
-public class YGO_RUNNER {
-
-	public static void main(String[] args) {
-		QueDB_Builder.queUser();
-	}
-}
-
 class QueDB_Builder implements KeyListener {
-	private static JTextField textField;
 	private static JFrame frame;
+	private static JTextField textField;
 
 	public static void queUser() {
 		frame = new JFrame("Use new backend? y/n");
@@ -26,6 +19,14 @@ class QueDB_Builder implements KeyListener {
 		frame.pack();
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
 	}
 
 	@Override
@@ -39,12 +40,11 @@ class QueDB_Builder implements KeyListener {
 			frame.setVisible(false);
 		}
 	}
+}
 
-	@Override
-	public void keyPressed(KeyEvent e) {
-	}
+public class YGO_RUNNER {
 
-	@Override
-	public void keyReleased(KeyEvent e) {
+	public static void main(String[] args) {
+		QueDB_Builder.queUser();
 	}
 }

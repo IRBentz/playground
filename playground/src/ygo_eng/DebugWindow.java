@@ -16,10 +16,10 @@ public class DebugWindow extends JFrame {
 	private static final long serialVersionUID = 6720686700487402244L;
 
 	private JPanel mainPanel = new JPanel(new GridLayout());
-	private JTextArea mainTextArea = new JTextArea(1, 1);
 	private JScrollPane mainScroll = new JScrollPane(mainPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 	private String mainText = "";
+	private JTextArea mainTextArea = new JTextArea(1, 1);
 	private final String printIden = "%PLN%";
 
 	public DebugWindow() {
@@ -54,12 +54,8 @@ public class DebugWindow extends JFrame {
 		 */
 	}
 
-	public void println(String newText, boolean print_to_system) {
-		print(printIden + newText + "\n", print_to_system);
-	}
-
-	public void println(String text) {
-		println(text, false);
+	public void print(String text) {
+		print(text, false);
 	}
 
 	public void print(String newText, boolean print_to_system) {
@@ -72,7 +68,11 @@ public class DebugWindow extends JFrame {
 		mainTextArea.setText(mainText);
 	}
 
-	public void print(String text) {
-		print(text, false);
+	public void println(String text) {
+		println(text, false);
+	}
+
+	public void println(String newText, boolean print_to_system) {
+		print(printIden + newText + "\n", print_to_system);
 	}
 }

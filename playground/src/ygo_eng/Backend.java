@@ -23,13 +23,14 @@ import ygo_eng.card.XyzMonCard;
 public abstract class Backend {
 	private static ArrayList<Card> card_db = new ArrayList<>();
 	private static ArrayList<int[]> fal_list = new ArrayList<>();
-	private static DebugWindow window = new DebugWindow();
 	public static boolean useNew;
+	private static DebugWindow window = new DebugWindow();
 
-	public static void start(String pointerFileName) {
-		buildDB_old(pointerFileName);
-		assignFaL();
-		debugCheck();
+	private static void assignFaL() {
+		for (Card card : card_db)
+			for (int[] pair : fal_list)
+				if (card.getIndex() == pair[0])
+					card.setAllowedCopies(pair[1]);
 	}
 
 	private static void buildDB_new(String pointerFileName) {
@@ -361,17 +362,16 @@ public abstract class Backend {
 		input_file.close();
 	}
 
-	private static void assignFaL() {
-		for (Card card : card_db)
-			for (int[] pair : fal_list)
-				if (card.getIndex() == pair[0])
-					card.setAllowedCopies(pair[1]);
-	}
-
 	private static void debugCheck() {
 		card_db.sort(Comparator.comparing(Card::getAllowedCopies));
 		Arrays.stream(card_db.toArray()).forEach(card -> System.out.println(card));
 
 		Arrays.stream(card_db.toArray()).forEach(card -> window.println(card.toString() + "\n"));
+	}
+
+	public static void start(String pointerFileName) {
+		buildDB_old(pointerFileName);
+		assignFaL();
+		debugCheck();
 	}
 }
