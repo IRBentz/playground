@@ -37,7 +37,7 @@ public abstract class Utils {
 		for (String in : input) {
 			linkArrow_list.add(stringToLinkArrow(in));
 		}
-		return linkArrow_list.toArray(new LinkArrow[linkArrow_list.size()]);
+		return linkArrow_list.toArray(LinkArrow[]::new);
 	}
 
 	public static LinkArrow[] pullNextLinkArrowBlock(Scanner target_scanner, String delimiter) {
@@ -48,7 +48,7 @@ public abstract class Utils {
 			nextString = target_scanner.next();
 		}
 
-		return linkArrow_list.toArray(new LinkArrow[linkArrow_list.size()]);
+		return linkArrow_list.toArray(LinkArrow[]::new);
 	}
 
 	public static String pullNextTextBlock(Scanner target_scanner, String delimiter) {
@@ -68,7 +68,7 @@ public abstract class Utils {
 		for (String in : input) {
 			types_list.add(stringToType(in));
 		}
-		return types_list.toArray(new Type[types_list.size()]);
+		return types_list.toArray(Type[]::new);
 	}
 
 	public static Type[] pullNextTypeBlock(Scanner target_scanner, String delimiter) {
@@ -79,7 +79,7 @@ public abstract class Utils {
 			nextString = target_scanner.next();
 		}
 
-		return types_list.toArray(new Type[types_list.size()]);
+		return types_list.toArray(Type[]::new);
 	}
 
 	public static Object[] pullSTBaseStats(Scanner target_scanner) {
@@ -165,5 +165,27 @@ public abstract class Utils {
 		new Error("Enum for \"" + inputString + "\" could not be found.").printStackTrace();
 		System.exit(1);
 		return null;
+	}
+
+	public static String filterFilePath(String input) {
+		if (input.contains("src//ygo_eng//"))
+			input = input.replace("src//ygo_eng//", "");
+		if (input.contains("card//")) {
+			input = input.replace("card//", "");
+			if (input.contains("card_png//")) {
+				input = input.replace("card_png//", "");
+				if (input.contains("link_arrows//"))
+					input = input.replace("link_arrows//", "");
+				if (input.contains("other//"))
+					input = input.replace("other//", "");
+				if (input.contains("pend//"))
+					input = input.replace("pend//", "pend ");
+			}
+		}
+		if (input.contains("data//"))
+			input = input.replace("data//", "");
+		if (input.contains("ui//"))
+			input = input.replace("ui//", "");
+		return input;
 	}
 }

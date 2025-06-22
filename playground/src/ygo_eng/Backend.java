@@ -364,9 +364,9 @@ public abstract class Backend {
 
 	private static void debugCheck() {
 		card_db.sort(Comparator.comparing(Card::getAllowedCopies));
-		Arrays.stream(card_db.toArray()).forEach(card -> System.out.println(card));
+		Arrays.stream(card_db.toArray(Card[]::new)).forEach(card -> System.out.println(card));
 
-		Arrays.stream(card_db.toArray()).forEach(card -> window.println(card.toString() + "\n"));
+		Arrays.stream(card_db.toArray(Card[]::new)).forEach(card -> window.println(card.toString() + "\n"));
 	}
 
 	public static void start(String pointerFileName) {
