@@ -10,5 +10,5 @@ module yugioh {
 	exports ygo_eng;
 	exports ygo_eng.data;
 
-	requires java.desktop;
+	requires transitive java.desktop;
 }
