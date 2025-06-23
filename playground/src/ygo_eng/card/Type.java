@@ -12,11 +12,11 @@ public enum Type {
 		bg_c = new Color(0, 0, 0);
 	}
 
-	Type(int r, int g, int b) {
-		bg_c = new Color(r, g, b);
-	}
-
 	Type(Color c) {
 		bg_c = c;
+	}
+
+	Type(int r, int g, int b) {
+		bg_c = new Color(r, g, b);
 	}
 }

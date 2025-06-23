@@ -32,7 +32,8 @@ class QueDB_Builder implements KeyListener {
 	@Override
 	public void keyTyped(KeyEvent e) {
 		if (e.getKeyChar() == 'y') {
-			Backend.useNew = true;
+			Backend.useNewFileFormat = true;
+			Backend.useNewFileLoading = true;
 			Backend.start("src//ygo_eng//file_pointers_new.txt");
 			frame.setVisible(false);
 		} else if (e.getKeyChar() == 'n') {

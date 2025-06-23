@@ -2,8 +2,10 @@ package ygo_eng;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Scanner;
 
@@ -23,141 +25,23 @@ import ygo_eng.card.XyzMonCard;
 public abstract class Backend {
 	private static ArrayList<Card> card_db = new ArrayList<>();
 	private static ArrayList<int[]> fal_list = new ArrayList<>();
-	public static boolean useNew;
-	private static DebugWindow window = new DebugWindow();
+	public static boolean useNewFileFormat, useNewFileLoading;
+	//private static DebugWindow window = new DebugWindow();
 
 	private static void assignFaL() {
+		int num_assigned = 0;
 		for (Card card : card_db)
 			for (int[] pair : fal_list)
-				if (card.getIndex() == pair[0])
+				if (card.getIndex() == pair[0]) {
 					card.setAllowedCopies(pair[1]);
+					num_assigned++;
+				}
+		System.out.println("Successfully assigned " + num_assigned + " cards their max allowed copies.");
 	}
 
-	private static void buildDB_new(String pointerFileName) {
-		Scanner pointerFileScanner;
-		try {
-			pointerFileScanner = new Scanner(new File(pointerFileName));
-			System.out.println("Found file at: " + new File(pointerFileName).getPath());
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return;
-		}
-
-		String filePath = pointerFileScanner.nextLine();
-		System.out.println("Successfully found designated file path at: " + filePath.replace("//", "\\"));
-
-		ArrayList<Scanner> fileScanners = new ArrayList<>();
-		int numberOfFiles = 8;
-		for (int i = 0; i < numberOfFiles; i++) {
-			try {
-				String fileLoc = filePath + pointerFileScanner.nextLine();
-				System.out.println("Successfully found Target file: " + fileLoc.replace("//", "\\"));
-				fileScanners.add(new Scanner(new File(fileLoc)));
-
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-				pointerFileScanner.close();
-				return;
-			}
-		}
-
-		Scanner input = fileScanners.get(0);
-		Object[] baseStats;
-		//
-		// * Monster
-		while (input.hasNext()) {
-			baseStats = Utils.pullMonBaseStats(input);
-			card_db.add(new MonCard((String) ((Object[]) baseStats[0])[0], (int) ((Object[]) baseStats[0])[1],
-					(MonAttribute) baseStats[1], (MonType) baseStats[2], (Type[]) baseStats[3], input.nextLine(),
-					Integer.parseInt(input.nextLine()), Integer.parseInt(input.nextLine()),
-					Integer.parseInt(input.nextLine())));
-			input.nextLine();
-			baseStats = null;
-		}
-		input.close();
-		//
-		// * Pendulum
-		input = fileScanners.get(1);
-		while (input.hasNext()) {
-			baseStats = Utils.pullMonBaseStats(input);
-			card_db.add(new PenMonCard((String) ((Object[]) baseStats[0])[0], (int) ((Object[]) baseStats[0])[1],
-					(MonAttribute) baseStats[1], (MonType) baseStats[2], (Type[]) baseStats[3], input.nextLine(),
-					input.nextLine(), Integer.parseInt(input.nextLine()), Integer.parseInt(input.nextLine()),
-					Integer.parseInt(input.nextLine()), Integer.parseInt(input.nextLine())));
-			input.nextLine();
-			baseStats = null;
-		}
-		input.close();
-		//
-		// *Fusion and Synchro Monster
-		for (int i = 2; i < 4; i++) {
-			input = fileScanners.get(i);
-			while (input.hasNextLine()) {
-				baseStats = Utils.pullMonBaseStats(input);
-				card_db.add(new ExtraMonCard((String) ((Object[]) baseStats[0])[0], (int) ((Object[]) baseStats[0])[1],
-						(MonAttribute) baseStats[1], (MonType) baseStats[2], (Type[]) baseStats[3], input.nextLine(),
-						input.nextLine(), Integer.parseInt(input.nextLine()), Integer.parseInt(input.nextLine()),
-						Integer.parseInt(input.nextLine())));
-				input.nextLine();
-				baseStats = null;
-			}
-		}
-		input.close();
-		//
-		// * XYZ
-		input = fileScanners.get(4);
-		while (input.hasNext()) {
-			baseStats = Utils.pullMonBaseStats(input);
-			card_db.add(new XyzMonCard((String) ((Object[]) baseStats[0])[0], (int) ((Object[]) baseStats[0])[1],
-					(MonAttribute) baseStats[1], (MonType) baseStats[2], (Type[]) baseStats[3], input.nextLine(),
-					input.nextLine(), Integer.parseInt(input.nextLine()), Integer.parseInt(input.nextLine()),
-					Integer.parseInt(input.nextLine())));
-			input.nextLine();
-			baseStats = null;
-		}
-		input.close();
-		//
-		// * Link
-		input = fileScanners.get(5);
-		while (input.hasNextLine()) {
-			baseStats = Utils.pullMonBaseStats(input);
-			card_db.add(new LinkMonCard((String) ((Object[]) baseStats[0])[0], (int) ((Object[]) baseStats[0])[1],
-					(MonAttribute) baseStats[1], (MonType) baseStats[2], (Type[]) baseStats[3], input.nextLine(),
-					input.nextLine(), Integer.parseInt(input.nextLine()), Integer.parseInt(input.nextLine()),
-					Utils.pullNextLinkArrowBlock(input)));
-			input.nextLine();
-			baseStats = null;
-		}
-		input.close();
-		//
-		// * Spell
-		input = fileScanners.get(6);
-		while (input.hasNextLine()) {
-			baseStats = Utils.pullSTBaseStats(input);
-			card_db.add(new SpellCard((String) ((Object[]) baseStats[0])[0], (int) ((Object[]) baseStats[0])[1],
-					(String) baseStats[1], (Icon) baseStats[2]));
-			input.nextLine();
-			baseStats = null;
-		}
-		input.close();
-		//
-		// * Trap
-		input = fileScanners.get(7);
-		while (input.hasNextLine()) {
-			baseStats = Utils.pullSTBaseStats(input);
-			card_db.add(new TrapCard((String) ((Object[]) baseStats[0])[0], (int) ((Object[]) baseStats[0])[1],
-					(String) baseStats[1], (Icon) baseStats[2]));
-			input.nextLine();
-			baseStats = null;
-		}
-		input.close();
-		buildFaL(filePath + pointerFileScanner.nextLine());
-		pointerFileScanner.close();
-	}
-
-	private static void buildDB_old(String pointerFileName) {
-		if (useNew) {
-			buildDB_new(pointerFileName);
+	private static void buildDB_v1(String pointerFileName) {
+		if (useNewFileFormat) {
+			buildDB_v2(pointerFileName);
 			return;
 		}
 
@@ -276,7 +160,7 @@ public abstract class Backend {
 							(String) ((Object[]) returnedList[0])[2], (Icon) returnedList[1]));
 		}
 
-		buildFaL(filePath + pointerFileScanner.nextLine());
+		buildFaL_v1(filePath + pointerFileScanner.nextLine());
 
 		pointerFileScanner.close();
 		for (Scanner scanner : fileScanners) {
@@ -346,7 +230,190 @@ public abstract class Backend {
 		 **/
 	}
 
-	private static void buildFaL(String fileName) {
+	private static void buildDB_v2(String pointerFileName) {
+		Scanner pointerFileScanner;
+		ArrayList<Scanner> fileScanners = new ArrayList<>();
+		if(useNewFileLoading) {
+			Path pointerFilePath = FileSystems.getDefault().getPath("src//ygo_eng//", "file_pointers_new.txt");
+			try {
+				pointerFileScanner = new Scanner(pointerFilePath);
+				System.out.println("Successfully found file \"" + pointerFilePath.getFileName() + "\" at the following file path: \"" + pointerFilePath + "\"");
+			} catch (IOException e) {
+				e.printStackTrace();
+				return;
+			}
+			Path filePath = FileSystems.getDefault().getPath(pointerFileScanner.nextLine());
+			System.out.println("Successfully found designated file path: \"" + filePath + "\"");
+			
+			int numberOfFiles = 8;
+			for (int i = 0; i < numberOfFiles; i++) {
+				try {
+					String fileLoc = pointerFileScanner.nextLine();
+					fileScanners.add(new Scanner(filePath.resolve(fileLoc)));
+					System.out.println("Successfully found file \"" + filePath.resolve(fileLoc).getFileName() + "\" at the following file path: \"" + filePath.resolve(fileLoc) + "\"");
+				} catch (IOException e) {
+					e.printStackTrace();
+					pointerFileScanner.close();
+					if(i != 0) {
+						for(int j = 0; j < i; j++) {
+							fileScanners.get(j).close();
+						}
+					}
+					return;
+				}
+			}
+			buildFaL_v2(filePath.resolve(pointerFileScanner.nextLine()));
+		} else {
+			try {
+				pointerFileScanner = new Scanner(new File(pointerFileName));
+				System.out.println("Found file at: " + new File(pointerFileName).getPath());
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+				return;
+			}
+			
+			String filePath = pointerFileScanner.nextLine();
+			System.out.println("Successfully found designated file path at: " + filePath.replace("//", "\\"));
+
+			int numberOfFiles = 8;
+			for (int i = 0; i < numberOfFiles; i++) {
+				try {
+					String fileLoc = filePath + pointerFileScanner.nextLine();
+					System.out.println("Successfully found Target file: " + fileLoc.replace("//", "\\"));
+					fileScanners.add(new Scanner(new File(fileLoc)));
+				
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+					pointerFileScanner.close();
+					if(i != 0) {
+						for(int j = 0; j < i; j++) {
+							fileScanners.get(j).close();
+						}
+					}
+					return;
+				}
+			}
+			buildFaL_v1(filePath + pointerFileScanner.nextLine());
+		}
+		
+		pointerFileScanner.close();
+		Scanner input = fileScanners.get(0);
+		Object[] baseStats;
+		int ttl_count = 0;
+		int cur_count = 0;
+		//
+		// * Monster
+		while (input.hasNext()) {
+			baseStats = Utils.pullMonBaseStats(input);
+			card_db.add(new MonCard((String) ((Object[]) baseStats[0])[0], (int) ((Object[]) baseStats[0])[1],
+					(MonAttribute) baseStats[1], (MonType) baseStats[2], (Type[]) baseStats[3], input.nextLine(),
+					Integer.parseInt(input.nextLine()), Integer.parseInt(input.nextLine()),
+					Integer.parseInt(input.nextLine())));
+			input.nextLine();
+			baseStats = null;
+			cur_count++;
+		}
+		input.close();
+		ttl_count += cur_count;
+		System.out.println("Created " + cur_count + " cards."); cur_count = 0;
+		//
+		// * Pendulum
+		input = fileScanners.get(1);
+		while (input.hasNext()) {
+			baseStats = Utils.pullMonBaseStats(input);
+			card_db.add(new PenMonCard((String) ((Object[]) baseStats[0])[0], (int) ((Object[]) baseStats[0])[1],
+					(MonAttribute) baseStats[1], (MonType) baseStats[2], (Type[]) baseStats[3], input.nextLine(),
+					input.nextLine(), Integer.parseInt(input.nextLine()), Integer.parseInt(input.nextLine()),
+					Integer.parseInt(input.nextLine()), Integer.parseInt(input.nextLine())));
+			input.nextLine();
+			baseStats = null;
+			cur_count++;
+		}
+		input.close();
+		ttl_count += cur_count;
+		System.out.println("Created " + cur_count + " cards."); cur_count = 0;
+		//
+		// *Fusion and Synchro Monster
+		for (int i = 2; i < 4; i++) {
+			input = fileScanners.get(i);
+			while (input.hasNextLine()) {
+				baseStats = Utils.pullMonBaseStats(input);
+				card_db.add(new ExtraMonCard((String) ((Object[]) baseStats[0])[0], (int) ((Object[]) baseStats[0])[1],
+						(MonAttribute) baseStats[1], (MonType) baseStats[2], (Type[]) baseStats[3], input.nextLine(),
+						input.nextLine(), Integer.parseInt(input.nextLine()), Integer.parseInt(input.nextLine()),
+						Integer.parseInt(input.nextLine())));
+				input.nextLine();
+				baseStats = null;
+				cur_count++;
+			}
+		}
+		input.close();
+		ttl_count += cur_count;
+		System.out.println("Created " + cur_count + " cards."); cur_count = 0;
+		//
+		// * XYZ
+		input = fileScanners.get(4);
+		while (input.hasNext()) {
+			baseStats = Utils.pullMonBaseStats(input);
+			card_db.add(new XyzMonCard((String) ((Object[]) baseStats[0])[0], (int) ((Object[]) baseStats[0])[1],
+					(MonAttribute) baseStats[1], (MonType) baseStats[2], (Type[]) baseStats[3], input.nextLine(),
+					input.nextLine(), Integer.parseInt(input.nextLine()), Integer.parseInt(input.nextLine()),
+					Integer.parseInt(input.nextLine())));
+			input.nextLine();
+			baseStats = null;
+			cur_count++;
+		}
+		input.close();
+		ttl_count += cur_count;
+		System.out.println("Created " + cur_count + " cards."); cur_count = 0;
+		//
+		// * Link
+		input = fileScanners.get(5);
+		while (input.hasNextLine()) {
+			baseStats = Utils.pullMonBaseStats(input);
+			card_db.add(new LinkMonCard((String) ((Object[]) baseStats[0])[0], (int) ((Object[]) baseStats[0])[1],
+					(MonAttribute) baseStats[1], (MonType) baseStats[2], (Type[]) baseStats[3], input.nextLine(),
+					input.nextLine(), Integer.parseInt(input.nextLine()), Integer.parseInt(input.nextLine()),
+					Utils.pullNextLinkArrowBlock(input)));
+			input.nextLine();
+			baseStats = null;
+			cur_count++;
+		}
+		input.close();
+		ttl_count += cur_count;
+		System.out.println("Created " + cur_count + " cards."); cur_count = 0;
+		//
+		// * Spell
+		input = fileScanners.get(6);
+		while (input.hasNextLine()) {
+			baseStats = Utils.pullSTBaseStats(input);
+			card_db.add(new SpellCard((String) ((Object[]) baseStats[0])[0], (int) ((Object[]) baseStats[0])[1],
+					(String) baseStats[1], (Icon) baseStats[2]));
+			input.nextLine();
+			baseStats = null;
+			cur_count++;
+		}
+		input.close();
+		ttl_count += cur_count;
+		System.out.println("Created " + cur_count + " cards."); cur_count = 0;
+		//
+		// * Trap
+		input = fileScanners.get(7);
+		while (input.hasNextLine()) {
+			baseStats = Utils.pullSTBaseStats(input);
+			card_db.add(new TrapCard((String) ((Object[]) baseStats[0])[0], (int) ((Object[]) baseStats[0])[1],
+					(String) baseStats[1], (Icon) baseStats[2]));
+			input.nextLine();
+			baseStats = null;
+			cur_count++;
+		}
+		input.close();
+		ttl_count += cur_count;
+		System.out.println("Created " + cur_count + " cards."); cur_count = 0;
+		System.out.println("Created " + ttl_count + " cards in total.");
+	}
+
+	private static void buildFaL_v1(String fileName) {
 		Scanner input_file;
 		try {
 			input_file = new Scanner(new File(fileName));
@@ -355,7 +422,23 @@ public abstract class Backend {
 			return;
 		}
 		System.out.println("Successfully found file at: " + new File(fileName).getPath());
-		window.println("Successfully found file at: " + new File(fileName).getPath());
+		//window.println("Successfully found file at: " + new File(fileName).getPath());
+		while (input_file.hasNext()) {
+			fal_list.add(new int[] { input_file.nextInt(), input_file.nextInt() });
+		}
+		input_file.close();
+	}
+	
+	private static void buildFaL_v2(Path filePath) {
+		Scanner input_file;
+		try {
+			input_file = new Scanner(filePath);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+		System.out.println("Successfully found file \"" + filePath.getFileName() + "\" at the following file path: \"" + filePath + "\"");
+		//window.println("Successfully found file \"" + filePath.resolve(fileName).getFileName() + "\" at the following file path: \"" + filePath.resolve(fileName) + "\"");
 		while (input_file.hasNext()) {
 			fal_list.add(new int[] { input_file.nextInt(), input_file.nextInt() });
 		}
@@ -364,13 +447,13 @@ public abstract class Backend {
 
 	private static void debugCheck() {
 		card_db.sort(Comparator.comparing(Card::getAllowedCopies));
-		Arrays.stream(card_db.toArray(Card[]::new)).forEach(card -> System.out.println(card));
+		//Arrays.stream(card_db.toArray(Card[]::new)).forEach(card -> System.out.println(card));
 
-		Arrays.stream(card_db.toArray(Card[]::new)).forEach(card -> window.println(card.toString() + "\n"));
+		//Arrays.stream(card_db.toArray(Card[]::new)).forEach(card -> window.println(card.toString() + "\n"));
 	}
 
 	public static void start(String pointerFileName) {
-		buildDB_old(pointerFileName);
+		buildDB_v1(pointerFileName);
 		assignFaL();
 		debugCheck();
 	}

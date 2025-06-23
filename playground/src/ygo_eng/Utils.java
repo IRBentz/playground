@@ -11,6 +11,28 @@ import ygo_eng.card.MonType;
 import ygo_eng.card.Type;
 
 public abstract class Utils {
+	public static String filterFilePath(String input) {
+		if (input.contains("src//ygo_eng//"))
+			input = input.replace("src//ygo_eng//", "");
+		if (input.contains("card//")) {
+			input = input.replace("card//", "");
+			if (input.contains("card_png//")) {
+				input = input.replace("card_png//", "");
+				if (input.contains("link_arrows//"))
+					input = input.replace("link_arrows//", "");
+				if (input.contains("other//"))
+					input = input.replace("other//", "");
+				if (input.contains("pend//"))
+					input = input.replace("pend//", "pend ");
+			}
+		}
+		if (input.contains("data//"))
+			input = input.replace("data//", "");
+		if (input.contains("ui//"))
+			input = input.replace("ui//", "");
+		return input;
+	}
+
 	public static Object[] pullBaseStats(Scanner target_scanner) {
 		return new Object[] { target_scanner.nextLine(), Integer.parseInt(target_scanner.nextLine()), };
 	}
@@ -165,27 +187,5 @@ public abstract class Utils {
 		new Error("Enum for \"" + inputString + "\" could not be found.").printStackTrace();
 		System.exit(1);
 		return null;
-	}
-
-	public static String filterFilePath(String input) {
-		if (input.contains("src//ygo_eng//"))
-			input = input.replace("src//ygo_eng//", "");
-		if (input.contains("card//")) {
-			input = input.replace("card//", "");
-			if (input.contains("card_png//")) {
-				input = input.replace("card_png//", "");
-				if (input.contains("link_arrows//"))
-					input = input.replace("link_arrows//", "");
-				if (input.contains("other//"))
-					input = input.replace("other//", "");
-				if (input.contains("pend//"))
-					input = input.replace("pend//", "pend ");
-			}
-		}
-		if (input.contains("data//"))
-			input = input.replace("data//", "");
-		if (input.contains("ui//"))
-			input = input.replace("ui//", "");
-		return input;
 	}
 }

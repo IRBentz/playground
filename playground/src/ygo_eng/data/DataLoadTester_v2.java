@@ -1,7 +1,8 @@
 package ygo_eng.data;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -19,41 +20,45 @@ import ygo_eng.card.TrapCard;
 import ygo_eng.card.Type;
 import ygo_eng.card.XyzMonCard;
 
-public abstract class DataLoadTester {
+public abstract class DataLoadTester_v2 {
+
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		DataLoadTester.run();
+		DataLoadTester_v2.run();
 	}
 
 	public static void run() {
 		Scanner pointerFileScanner;
+		Path pointerFilePath = FileSystems.getDefault().getPath("src//ygo_eng//", "file_pointers_new.txt");
 		try {
-			pointerFileScanner = new Scanner(new File("src//ygo_eng//file_pointers_new.txt"));
-			System.out.println("Found file at: " + new File("src//ygo_eng//file_pointers_new.txt").getPath());
-		} catch (FileNotFoundException e) {
+			pointerFileScanner = new Scanner(pointerFilePath);
+			System.out.println("Successfully found file \"" + pointerFilePath.getFileName() + "\" at the following file path: \"" + pointerFilePath + "\"");
+		} catch (IOException e) {
 			e.printStackTrace();
 			return;
 		}
-
-		String filePath = pointerFileScanner.nextLine();
-		System.out.println("Successfully found designated file path at: " + filePath.replace("//", "\\"));
-
+		Path filePath = FileSystems.getDefault().getPath(pointerFileScanner.nextLine());
+		System.out.println("Successfully found designated file path: \"" + filePath + "\"");
+		
 		ArrayList<Scanner> fileScanners = new ArrayList<>();
 		int numberOfFiles = 8;
 		for (int i = 0; i < numberOfFiles; i++) {
 			try {
-				String fileLoc = filePath + pointerFileScanner.nextLine();
-				System.out.println("Successfully found Target file: " + fileLoc.replace("//", "\\"));
-				fileScanners.add(new Scanner(new File(fileLoc)));
-
-			} catch (FileNotFoundException e) {
+				String fileLoc = pointerFileScanner.nextLine();
+				fileScanners.add(new Scanner(filePath.resolve(fileLoc)));
+				System.out.println("Successfully found file \"" + filePath.resolve(fileLoc).getFileName() + "\" at the following file path: \"" + filePath.resolve(fileLoc) + "\"");
+			} catch (IOException e) {
 				e.printStackTrace();
 				pointerFileScanner.close();
+				if(i != 0) {
+					for(int j = 0; j < i; j++) {
+						fileScanners.get(j).close();
+					}
+				}
 				return;
 			}
 		}
 		pointerFileScanner.close();
-
+		
 		Scanner input = fileScanners.get(0);
 		ArrayList<Card> cards = new ArrayList<>();
 		Object[] baseStats;
