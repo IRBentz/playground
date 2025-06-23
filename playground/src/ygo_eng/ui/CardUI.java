@@ -20,6 +20,7 @@ public class CardUI extends JFrame {
 	private static ArrayList<ImageIcon> cardBG_II = new ArrayList<>();
 	private static final long serialVersionUID = 8856255655978002135L;
 	private static final int WIDTH_STD = 59, HEIGHT_STD = 86;
+
 	public static void buildCardBG_II(String pointerFileName) {
 		Scanner pointerFileScanner;
 		try {
@@ -37,14 +38,16 @@ public class CardUI extends JFrame {
 
 		pointerFileScanner.close();
 	}
+
 	public static void main(String args[]) {
 		// new CardUI();
 		CardUI.buildCardBG_II("src//ygo_eng//ui//png_pointers.txt");
-		Arrays.stream(cardBG_II.toArray(ImageIcon[]::new)).forEach(image -> new CardUI(Utils.filterFilePath(image.toString())).setCardBG((ImageIcon) image));
+		Arrays.stream(cardBG_II.toArray(ImageIcon[]::new))
+				.forEach(image -> new CardUI(Utils.filterFilePath(image.toString())).setCardBG((ImageIcon) image));
 	}
 
 	private JPanel cardPanel = new JPanel();
-	
+
 	private int factor = 6;
 
 	public CardUI() {
@@ -71,8 +74,8 @@ public class CardUI extends JFrame {
 	}
 
 	public void setCardBG(ImageIcon image) {
-		cardPanel.add(new JLabel(
-				new ImageIcon(image.getImage().getScaledInstance(WIDTH_STD * factor, HEIGHT_STD * factor, Image.SCALE_SMOOTH))));
+		cardPanel.add(new JLabel(new ImageIcon(
+				image.getImage().getScaledInstance(WIDTH_STD * factor, HEIGHT_STD * factor, Image.SCALE_SMOOTH))));
 		pack();
 	}
 }
