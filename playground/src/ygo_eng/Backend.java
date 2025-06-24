@@ -26,7 +26,7 @@ public abstract class Backend {
 	private static ArrayList<Card> card_db = new ArrayList<>();
 	private static ArrayList<int[]> fal_list = new ArrayList<>();
 	public static boolean useNewFileFormat, useNewFileLoading;
-	// private static DebugWindow window = new DebugWindow();
+	private static DebugWindow window = new DebugWindow();
 
 	private static void assignFaL() {
 		int num_assigned = 0;
@@ -257,8 +257,8 @@ public abstract class Backend {
 					e.printStackTrace();
 					pointerFileScanner.close();
 					if (i != 0) {
-						for (int j = 0; j < i; j++) {
-							fileScanners.get(j).close();
+						for (Scanner scanner : fileScanners) {
+							scanner.close();
 						}
 					}
 					return;
@@ -288,14 +288,14 @@ public abstract class Backend {
 					e.printStackTrace();
 					pointerFileScanner.close();
 					if (i != 0) {
-						for (int j = 0; j < i; j++) {
-							fileScanners.get(j).close();
+						for (Scanner scanner : fileScanners) {
+							scanner.close();
 						}
 					}
 					return;
 				}
 			}
-			buildFaL_v1(filePath + pointerFileScanner.nextLine());
+			buildFaL_v1(pointerFileScanner.nextLine());
 		}
 
 		pointerFileScanner.close();
