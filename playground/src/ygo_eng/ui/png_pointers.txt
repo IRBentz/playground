@@ -1,4 +1,4 @@
-src//ygo_eng//card//card_png//
+src//ygo_eng//db//_png//
 effect.png
 fusion.png
 normal.png
