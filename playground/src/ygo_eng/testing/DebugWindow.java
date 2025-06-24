@@ -1,4 +1,4 @@
-package ygo_eng;
+package ygo_eng.testing;
 
 import java.awt.Color;
 import java.awt.Dimension;

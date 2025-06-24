@@ -1,4 +1,4 @@
-package ygo_eng.db;
+package ygo_eng.testing;
 
 import java.io.IOException;
 import java.nio.file.FileSystems;
@@ -6,7 +6,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import ygo_eng.Utils;
 import ygo_eng.card.Card;
 import ygo_eng.card.ExtraMonCard;
 import ygo_eng.card.Icon;
@@ -19,6 +18,7 @@ import ygo_eng.card.SpellCard;
 import ygo_eng.card.TrapCard;
 import ygo_eng.card.Type;
 import ygo_eng.card.XyzMonCard;
+import ygo_eng.engine.Utils;
 
 public abstract class DataLoadTester_v2 {
 

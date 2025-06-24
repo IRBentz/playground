@@ -7,6 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
+import ygo_eng.engine.Backend;
+
 class QueDB_Builder implements KeyListener {
 	private static JFrame frame;
 	private static JTextField textField;

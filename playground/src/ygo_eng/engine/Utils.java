@@ -1,4 +1,4 @@
-package ygo_eng;
+package ygo_eng.engine;
 
 import java.util.ArrayList;
 import java.util.Scanner;

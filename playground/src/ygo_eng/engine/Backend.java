@@ -1,4 +1,4 @@
-package ygo_eng;
+package ygo_eng.engine;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -21,6 +21,7 @@ import ygo_eng.card.SpellCard;
 import ygo_eng.card.TrapCard;
 import ygo_eng.card.Type;
 import ygo_eng.card.XyzMonCard;
+import ygo_eng.testing.DebugWindow;
 
 public abstract class Backend {
 	private static ArrayList<Card> card_db = new ArrayList<>();
@@ -233,83 +234,9 @@ public abstract class Backend {
 		 * found.").printStackTrace(); break; } } input_file.close();
 		 **/
 	}
-	
-	private static void grabFileScanners_v1(String pointerFileName) {
-		Scanner pointerFileScanner;
-		ArrayList<Scanner> fileScanners = new ArrayList<>();
-		try {
-			pointerFileScanner = new Scanner(new File(pointerFileName));
-			System.out.println("Found file at: " + new File(pointerFileName).getPath());
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return;
-		}
 
-		String filePath = pointerFileScanner.nextLine();
-		System.out.println("Successfully found designated file path at: " + filePath.replace("//", "\\"));
-
-		int numberOfFiles = 8;
-		for (int i = 0; i < numberOfFiles; i++) {
-			try {
-				String fileLoc = filePath + pointerFileScanner.nextLine();
-				System.out.println("Successfully found Target file: " + fileLoc.replace("//", "\\"));
-				fileScanners.add(new Scanner(new File(fileLoc)));
-
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-				pointerFileScanner.close();
-				if (i != 0) {
-					for (Scanner scanner : fileScanners) {
-						scanner.close();
-					}
-				}
-				return;
-			}
-		}
-		buildFaL_v1(pointerFileScanner.nextLine());
-		pointerFileScanner.close();
-		buildDB_v2(fileScanners);
-	}
-	
-	private static void grabFileScanners_v2(String pointerFileName) {
-		Scanner pointerFileScanner;
-		ArrayList<Scanner> fileScanners = new ArrayList<>();
-		Path pointerFilePath = FileSystems.getDefault().getPath("src//ygo_eng//", "file_pointers_new.txt");
-		try {
-			pointerFileScanner = new Scanner(pointerFilePath);
-			System.out.println("Successfully found file \"" + pointerFilePath.getFileName()
-					+ "\" at the following file path: \"" + pointerFilePath + "\"");
-		} catch (IOException e) {
-			e.printStackTrace();
-			return;
-		}
-		Path filePath = FileSystems.getDefault().getPath(pointerFileScanner.nextLine());
-		System.out.println("Successfully found designated file path: \"" + filePath + "\"");
-
-		int numberOfFiles = 8;
-		for (int i = 0; i < numberOfFiles; i++) {
-			try {
-				String fileLoc = pointerFileScanner.nextLine();
-				fileScanners.add(new Scanner(filePath.resolve(fileLoc)));
-				System.out.println("Successfully found file \"" + filePath.resolve(fileLoc).getFileName()
-						+ "\" at the following file path: \"" + filePath.resolve(fileLoc) + "\"");
-			} catch (IOException e) {
-				e.printStackTrace();
-				pointerFileScanner.close();
-				if (i != 0) {
-					for (Scanner scanner : fileScanners) {
-						scanner.close();
-					}
-				}
-				return;
-			}
-		}
-		buildFaL_v2(filePath.resolve(pointerFileScanner.nextLine()));
-		pointerFileScanner.close();
-		buildDB_v2(fileScanners);
-	}
 	private static void buildDB_v2(ArrayList<Scanner> fileScanners) {
-		
+
 		Scanner input = fileScanners.get(0);
 		Object[] baseStats;
 		int ttl_count = 0;
@@ -476,6 +403,81 @@ public abstract class Backend {
 
 		// Arrays.stream(card_db.toArray(Card[]::new)).forEach(card ->
 		// window.println(card.toString() + "\n"));
+	}
+
+	private static void grabFileScanners_v1(String pointerFileName) {
+		Scanner pointerFileScanner;
+		ArrayList<Scanner> fileScanners = new ArrayList<>();
+		try {
+			pointerFileScanner = new Scanner(new File(pointerFileName));
+			System.out.println("Found file at: " + new File(pointerFileName).getPath());
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return;
+		}
+
+		String filePath = pointerFileScanner.nextLine();
+		System.out.println("Successfully found designated file path at: " + filePath.replace("//", "\\"));
+
+		int numberOfFiles = 8;
+		for (int i = 0; i < numberOfFiles; i++) {
+			try {
+				String fileLoc = filePath + pointerFileScanner.nextLine();
+				System.out.println("Successfully found Target file: " + fileLoc.replace("//", "\\"));
+				fileScanners.add(new Scanner(new File(fileLoc)));
+
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+				pointerFileScanner.close();
+				if (i != 0) {
+					for (Scanner scanner : fileScanners) {
+						scanner.close();
+					}
+				}
+				return;
+			}
+		}
+		buildFaL_v1(pointerFileScanner.nextLine());
+		pointerFileScanner.close();
+		buildDB_v2(fileScanners);
+	}
+
+	private static void grabFileScanners_v2(String pointerFileName) {
+		Scanner pointerFileScanner;
+		ArrayList<Scanner> fileScanners = new ArrayList<>();
+		Path pointerFilePath = FileSystems.getDefault().getPath("src//ygo_eng//", "file_pointers_new.txt");
+		try {
+			pointerFileScanner = new Scanner(pointerFilePath);
+			System.out.println("Successfully found file \"" + pointerFilePath.getFileName()
+					+ "\" at the following file path: \"" + pointerFilePath + "\"");
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+		Path filePath = FileSystems.getDefault().getPath(pointerFileScanner.nextLine());
+		System.out.println("Successfully found designated file path: \"" + filePath + "\"");
+
+		int numberOfFiles = 8;
+		for (int i = 0; i < numberOfFiles; i++) {
+			try {
+				String fileLoc = pointerFileScanner.nextLine();
+				fileScanners.add(new Scanner(filePath.resolve(fileLoc)));
+				System.out.println("Successfully found file \"" + filePath.resolve(fileLoc).getFileName()
+						+ "\" at the following file path: \"" + filePath.resolve(fileLoc) + "\"");
+			} catch (IOException e) {
+				e.printStackTrace();
+				pointerFileScanner.close();
+				if (i != 0) {
+					for (Scanner scanner : fileScanners) {
+						scanner.close();
+					}
+				}
+				return;
+			}
+		}
+		buildFaL_v2(filePath.resolve(pointerFileScanner.nextLine()));
+		pointerFileScanner.close();
+		buildDB_v2(fileScanners);
 	}
 
 	public static void start(String pointerFileName) {

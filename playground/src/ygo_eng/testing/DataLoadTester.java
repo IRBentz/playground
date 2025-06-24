@@ -1,11 +1,10 @@
-package ygo_eng.db;
+package ygo_eng.testing;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import ygo_eng.Utils;
 import ygo_eng.card.Card;
 import ygo_eng.card.ExtraMonCard;
 import ygo_eng.card.Icon;
@@ -18,6 +17,7 @@ import ygo_eng.card.SpellCard;
 import ygo_eng.card.TrapCard;
 import ygo_eng.card.Type;
 import ygo_eng.card.XyzMonCard;
+import ygo_eng.engine.Utils;
 
 public abstract class DataLoadTester {
 	public static void main(String[] args) {

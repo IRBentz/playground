@@ -1,4 +1,4 @@
-package ygo_eng.ui;
+package ygo_eng.testing;
 
 import java.awt.Image;
 import java.io.File;
@@ -13,9 +13,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import ygo_eng.Utils;
+import ygo_eng.engine.Utils;
 
-public class CardUI extends JFrame {
+public class CardUITester extends JFrame {
 
 	private static ArrayList<ImageIcon> cardBG_II = new ArrayList<>();
 	private static final long serialVersionUID = 8856255655978002135L;
@@ -41,16 +41,16 @@ public class CardUI extends JFrame {
 
 	public static void main(String args[]) {
 		// new CardUI();
-		CardUI.buildCardBG_II("src//ygo_eng//ui//png_pointers.txt");
+		CardUITester.buildCardBG_II("src//ygo_eng//ui//png_pointers.txt");
 		Arrays.stream(cardBG_II.toArray(ImageIcon[]::new))
-				.forEach(image -> new CardUI(Utils.filterFilePath(image.toString())).setCardBG((ImageIcon) image));
+				.forEach(image -> new CardUITester(Utils.filterFilePath(image.toString())).setCardBG(image));
 	}
 
 	private JPanel cardPanel = new JPanel();
 
 	private int factor = 6;
 
-	public CardUI() {
+	public CardUITester() {
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		// ImageIcon ii = new ImageIcon("src//ygo_eng//card//card_png//effect.png");
 		this.add(cardPanel);
@@ -61,7 +61,7 @@ public class CardUI extends JFrame {
 		this.setVisible(true);
 	}
 
-	public CardUI(String text) {
+	public CardUITester(String text) {
 		super(text);
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		// ImageIcon ii = new ImageIcon("src//ygo_eng//card//card_png//effect.png");
